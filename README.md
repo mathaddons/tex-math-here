@@ -1,4 +1,8 @@
-# TeX Math Here
+TeX Math Here
+=============
+[![CircleCI](https://circleci.com/gh/mathaddons/tex-math-here.svg?style=shield)](https://circleci.com/gh/mathaddons/tex-math-here)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 This browser add-on is the current focus of our development. This is a tool that
 creates mathematical expressions for use in just about any web platform, such as
 GSuite, Microsoft Office Online, and Blackboard. The generated images are also

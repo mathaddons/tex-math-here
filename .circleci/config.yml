@@ -1,0 +1,52 @@
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - publish:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
+
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cibuilds/chrome-extension:latest
+    steps:
+      - checkout
+      - run:
+          name: "Make Extension Production Ready"
+          command: |
+            jq '.version = "new-version"' manifest.json | sponge manifest.json
+            jq '.browser_action.default_icon = "icon.png"' manifest.json | sponge manifest.json
+      - run:
+          name: "Run Tests"
+          command: echo "Run any tests here."
+      - run:
+          name: "Package Extension"
+          command: git archive -o tex-math-here.zip HEAD
+      - persist_to_workspace:
+          root: /root/project
+          paths:
+            - tex-math-here.zip
+
+  publish:
+    docker:
+      - image: cibuilds/chrome-extension:latest
+    environment:
+      - APP_ID: gopfokpflndblbooehdbffnnjmnegeph 
+    steps:
+      - attach_workspace:
+          at: /root/workspace
+      - run:
+          name: "Publish to the Google Chrome Store"
+          command: publish /root/workspace/tex-math-here.zip

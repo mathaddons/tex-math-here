@@ -6,3 +6,5 @@
 *.fls
 *.synctex.gz
 *.swp
+*.png
+*.svg

@@ -28,12 +28,8 @@
         delta angle=360-2*\pinAngle,
         radius=\pinB,
       ]
-       -- (0, -\pinC)
-      circle[
-        at={(0,0)},
-        x radius=\pinA,
-        y radius=-1.8mm+\pinA
-      ];
+       -- (0, -\pinC);
+      \filldraw[fill=white] circle [at={(0,0)}, x radius=\pinA, y radius=-1.8mm+\pinA];
       \node at (0,-0.1) {\fontsize{40}{46}\selectfont \TeX};
   \end{tikzpicture}
 \end{document}

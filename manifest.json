@@ -1,50 +1,50 @@
 {
 
-  "manifest_version": 2,
-  "name": "TeX Math Here",
-  "version": "0.6",
+    "manifest_version": 2,
+    "name": "TeX Math Here",
+    "version": "0.6",
 
-  "description": "Use the TeX markup language to take math here, there, or just about anywhere that images are supported.",
+    "description": "Use the TeX markup language to take math here, there, or just about anywhere that images are supported.",
 
-  "icons": {
-    "128": "icons/texheretransparent.png"
-  },
+    "icons": {
+        "128": "images/texhere/texhere.svg"
+    },
 
-  "background": {
+    "background": {
         "scripts": ["latex_transport.js"]
- },
+    },
 
-  "browser_action": {
-    "default_icon": {
-      "128": "icons/texheretransparent.png"
+    "browser_action": {
+        "default_icon": {
+            "128": "images/texhere/texhere.svg"
+        },
+        "default_title": "TeX Math Here",
+        "default_popup": "popup.html"
     },
-    "default_title": "TeX Math Here",
-    "default_popup": "popup.html"
-  },
 
-  "content_scripts": [
-    {
-      "matches": [ "<all_urls>" ],
-      "js": [ "main.js" ]
-    },
-    {
-      "matches": [ "*://docs.google.com/document/*", "*://docs.google.com/presentation/*" ],
-      "js": [ "dblclick_edit.js" ]
-    },
-    {
-      "matches": [ "*://mail.google.com/*" ],
-      "js": [ "dblclick_gmail_edit.js" ]
+    "content_scripts": [
+        {
+            "matches": [ "<all_urls>" ],
+            "js": [ "main.js" ]
+        },
+        {
+            "matches": [ "*://docs.google.com/document/*", "*://docs.google.com/presentation/*" ],
+            "js": [ "dblclick_edit.js" ]
+        },
+        {
+            "matches": [ "*://mail.google.com/*" ],
+            "js": [ "dblclick_gmail_edit.js" ]
+        }
+    ],
+
+    "commands": {
+  	    "_execute_browser_action": {
+  		      "suggested_key": {
+  			        "default": "Ctrl+Shift+Y",
+			          "linux": "Ctrl+Shift+U",
+			          "mac": "Command+Shift+Y",
+   			        "chromeos": "Ctrl+Shift+U"
+  		      }
+  	    }
     }
-  ],
-
-  "commands": {
-  	"_execute_browser_action": {
-  		"suggested_key": {
-  			"default": "Ctrl+Shift+Y",
-			"linux": "Ctrl+Shift+U",
-			"mac": "Command+Shift+Y",
-   			"chromeos": "Ctrl+Shift+U"
-  		}
-  	}
-  }
 }

@@ -3,6 +3,10 @@
 \usepackage[rgb]{xcolor}
 \usepackage{tikz}
 \usepackage{fix-cm}
+\usepackage{shadowtext}
+
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes.symbols}
 
 \newdimen\pinA
 \newdimen\pinB
@@ -20,7 +24,9 @@
     \useasboundingbox (-\pinB, -\pinC) (\pinB, \pinB);
     \pgfmathsetmacro{\pinAngle}{acos(\pinB/\pinC)}%
     \pgfmathsetmacro{\pinAngleRight}{270+\pinAngle}%
-    \path[fill=pin, color=texred, even odd rule]
+    \path[fill=pin, color=texred, even odd rule,
+      %blur shadow={shadow blur steps=5}
+    ]
       (\pinAngleRight:\pinB)
       arc[
         at={(0,0)},
@@ -29,7 +35,7 @@
         radius=\pinB,
       ]
        -- (0, -\pinC);
-      \filldraw[fill=white] circle [at={(0,0)}, x radius=\pinA, y radius=-1.8mm+\pinA];
-      \node at (0,-0.1) {\fontsize{40}{46}\selectfont \TeX};
+      \filldraw circle [at={(0,0)}, x radius=\pinA, y radius=-1.8mm+\pinA];
+      \node at (0,-0.1) {\fontsize{40}{46}\selectfont\TeX};
   \end{tikzpicture}
 \end{document}

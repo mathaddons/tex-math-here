@@ -9,7 +9,7 @@ pdf:
 .PHONY: logo $(resolutions)
 logo: pdf $(resolutions)
 
-$(resolutions):
+$(resolutions):/home/npgentry/org/data/21/a498e9-0b6b-4196-9dee-9106fb8b7766/tex-math-here/icons/texhere
 	convert -density $(density) $(logo).pdf \
 		-quality $(quality) \
 		-resize $@ $(logo)-$@.png

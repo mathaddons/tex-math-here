@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     let Browser;
+    let server = "http://localhost:5000/";
 
     // DETECT BROWSER TYPE FOR PROPER API USE
     try {
@@ -16,6 +17,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Populate the font selector from local fonts.json.
+    $(document).ready(function() {
+        let font_selector = $('#font');
+        font_selector.empty();
+
+        // $.getJSON(server + "fonts", function (data) {
+        //     fonts = data;
+        // });
+
+        $.getJSON(server + "fonts", function (data) {
+            $.each(data, function (key, entry) {
+                font_selector.append($('<option></option>').attr('value', key).text(entry.description));
+            })
+        })
+    });
     // Sets values of the options before the user
     //+ has entered their own selections
     //+ (which would then be stored in localStorage)
@@ -32,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             else if (optionType === "fontStyle"){
                 // sets font to Latin Modern if localStorage is empty for id = font
-                localStorage.setItem(id, "Computer Modern Serif");
+                localStorage.setItem(id, "computer-modern");
             }
         }
     }
@@ -227,58 +243,6 @@ document.addEventListener('DOMContentLoaded', function () {
             focusElement.focus();
         }
     });
-
-
-    let font = document.getElementById("font");
-
-    // Sets the value of the font label based on which font is selected
-    function fontDescription(){
-        switch (font.value){
-            // Latin Modern
-        case "Computer Modern Serif":
-            document.getElementById("fontLabel").innerHTML = "Computer Modern Serif";
-            break;
-            // CM Bright
-        case "Computer Modern Sans Serif":
-            document.getElementById("fontLabel").innerHTML = "Computer Modern Sans Serif";
-            break;
-            // Garamond
-        case "EB Garamond":
-            document.getElementById("fontLabel").innerHTML = "EB Garamond";
-            break;
-            // Helvetica
-        case "Nimbus Sans L":
-            document.getElementById("fontLabel").innerHTML = "Nimbus Sans L";
-            break;
-            // New Century Schoolbook
-        case "Fourier NC":
-            document.getElementById("fontLabel").innerHTML = "Fourier NC";
-            break;
-            // Palatino
-        case "Pazo Math":
-            document.getElementById("fontLabel").innerHTML = "Pazo Math";
-            break;
-            // Times New Roman
-        case "STIX 1":
-            document.getElementById("fontLabel").innerHTML = "STIX 1";
-            break;
-            // Utopia
-        case "Fourier":
-            document.getElementById("fontLabel").innerHTML = "Fourier";
-            break;
-        default:
-            document.getElementById("fontLabel").innerHTML = "";
-            break;
-        }
-    }
-
-    // Loads font label when extension is first opened
-    fontDescription();
-
-    // Chanages font label dynamically as the font selection changes
-    font.addEventListener("input", function(){
-        fontDescription();
-    })
 
 
     let form = document.getElementById('form');

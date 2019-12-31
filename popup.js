@@ -254,9 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Get values from user configuration
         let font = document.getElementById('font');
         let DPI = document.getElementById('DPI');
-        let red = document.getElementById('red');
-        let green = document.getElementById('green');
-        let blue = document.getElementById('blue');
+        let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
 
         // Prepares latex input for url
@@ -266,13 +264,11 @@ document.addEventListener('DOMContentLoaded', function () {
         sessionStorage.clear();
 
         // Set URL using configuration options
-        let dataString = "dpi=" + DPI.value +
-            "&latex=" + latex +
-            "&red=" + red.value +
-            "&green=" + green.value +
-            "&blue=" + blue.value +
-            "&font=" + font.value
-        let value = 'http://13.90.200.36/latex_converter.php?'  + dataString
+        let dataString = "?d=" + DPI.value +
+            "&c=" + colour.value.slice(1) +
+            "&f=" + font.value;
+
+        let value = server + 'compile/' + latex + dataString;
 
         var xhr = new XMLHttpRequest();
 

@@ -1,66 +1,75 @@
 <!doctype html>
 <html>
-<head>
-    <title>Enter TeX code</title>
-    <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+  <head>
+    <title>TeX Math Here</title>
+    <script src="jquery-3.3.1.min.js"></script>
     <script src="popup.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css">
-</head>
-<body>
-    <h3> <p style = "font-family:helvetica,verdana,arial;font-size:16px;">Enter T<sub>E</sub>X math code: do not enclose in $ $ or \[ \]</h3></p>
+  </head>
+  <body>
+    <h3>
+      <p class="disable-select" style="font-family:helvetica,verdana,arial;font-size:16px;">Enter
+        T<sub>E</sub>X math code: do not enclose in $ $ or \[ \]</p>
+    </h3>
+
+
     <form id="form">
-       <textarea class="TeX"  id="code" rows="4" cols="50">Enter code here</textarea>
-    <br/>
+      <textarea class="TeX" id="code" rows="4" cols="50">ax^2 + bx + c</textarea>
+      <br/>
 
-    <select class="fonts" id="font" title="Font">
-    </select>
+      <select class="fonts" id="font" title="Font">
+      </select>
 
-    <!--value corresponds to dpi (10 * the pt size value) -->
-    <select class="fontSize" id="DPI" title="Font size" >
-         <option value="80">8pt</option>
-		 <option value="90">9pt</option>
-		 <option value="100">10pt</option>
-		 <option value="110">11pt</option>
-		 <option value="120">12pt</option>
-		 <option value="140">14pt</option>
-		 <option value="160">16pt</option>
-		 <option value="180">18pt</option>
-		 <option value="200">20pt</option>
-		 <option value="220">22pt</option>
-		 <option value="240">24pt</option>
-		 <option value="260">26pt</option>
-		 <option value="280">28pt</option>
-		 <option value="300">30pt</option>
-		 <option value="360">36pt</option>
-		 <option value="420">42pt</option>
-		 <option value="480">48pt</option>
-		 <option value="600">60pt</option>
-		 <option value="720">72pt</option>
-		 <option value="960">96pt</option>
-        </select>
+      <!--value corresponds to dpi (10 * the pt size value) -->
+      <select class="fontSize" id="DPI" title="Font size" >
+        <option value="80">8pt</option>
+		    <option value="90">9pt</option>
+		    <option value="100">10pt</option>
+		    <option value="110">11pt</option>
+		    <option value="120">12pt</option>
+		    <option value="140">14pt</option>
+		    <option value="160">16pt</option>
+		    <option value="180">18pt</option>
+		    <option value="200">20pt</option>
+		    <option value="220">22pt</option>
+		    <option value="240">24pt</option>
+		    <option value="260">26pt</option>
+		    <option value="280">28pt</option>
+		    <option value="300">30pt</option>
+		    <option value="360">36pt</option>
+		    <option value="420">42pt</option>
+		    <option value="480">48pt</option>
+		    <option value="600">60pt</option>
+		    <option value="720">72pt</option>
+		    <option value="960">96pt</option>
+      </select>
 
+      <input type="color" id="color" style="width:15%;">
 
-    <input type="color" id="color" style="width:15%;">
-    
-    <div id="fontLabel" style="font-size:10px;"></div>
+      <div id="fontLabel" style="font-size:10px;"></div>
 
-    <p style = "font-family:helvetica,verdana,arial;font-size:16px;">
-    R <input type="number" title="Red" id="red" min="0" max="255" value="0">
-    G <input type="number" title="Green" id="green" min="0" max="255" value="0">
-    B <input type="number" title="Blue" id="blue" min="0" max="255" value="0">
+      <p class="disable-select" style = "font-family:helvetica,verdana,arial;font-size:16px;">
+        R <input type="number" title="Red" id="red" min="0" max="255" value="0">
+        G <input type="number" title="Green" id="green" min="0" max="255" value="0">
+        B <input type="number" title="Blue" id="blue" min="0" max="255" value="0">
     </br>
 
 
     <!-- DPI: <input type="number" id="DPI" value="300" width="1" />-->
-        <br />
-        <button type="submit" id="submitButton">Convert</button>
-  
-        
+    <br />
+    <button type="submit" id="submitButton">Convert</button>
+
+
     </form>
 
-    <h3> <p style = "font-family:helvetica,verdana,arial;font-size:16px;">Preview (automatically copies to clipboard)</h3></p>
+
+    <h3>
+      <p class="disable-select"
+         style="font-family:helvetica,verdana,arial;font-size:16px;">
+        Preview (automatically copies to clipboard)</p>
+    </h3>
 
 
-<br/>
-</body>
+    <br/>
+  </body>
 </html>

@@ -257,8 +257,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
 
-        // Prepares latex input for url
-        latex = encodeURIComponent(latex);
+        // Prepares latex input for url, and properly escape forward slashes.
+        latex = encodeURIComponent(latex.replace(/\//g, '\\slash'));
 
         // All session storage info cleared (user will be alerted if certain text is entered per function checkInput())
         sessionStorage.clear();

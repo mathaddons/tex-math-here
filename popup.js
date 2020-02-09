@@ -17,19 +17,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+
     // Populate the font selector from local fonts.json.
     $(document).ready(function() {
         let font_selector = $('#font');
         font_selector.empty();
 
-        // $.getJSON(server + "fonts", function (data) {
-        //     fonts = data;
-        // });
-
         $.getJSON(server + "fonts", function (data) {
+            font_data = data;
             $.each(data, function (key, entry) {
-                font_selector.append($('<option></option>').attr('value', key).text(entry.description));
+                font_selector.append(
+                    $('<option></option>').attr('value', key).text(entry.description)
+                );
             })
+            document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
         })
     });
     // Sets values of the options before the user

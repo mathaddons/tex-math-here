@@ -2,21 +2,25 @@
 
     "manifest_version": 2,
     "name": "TeX Math Here",
-    "version": "0.6",
+    "version": "0.7",
 
     "description": "Use the TeX markup language to take math here, there, or just about anywhere that images are supported.",
 
     "icons": {
-        "128": "images/texhere/texhere.svg"
+        "128": "images/texhere/texhere.128.png",
+        "48": "images/texhere/texhere.48.png",
+        "32": "images/texhere/texhere.32.png"
     },
 
     "background": {
         "scripts": ["latex_transport.js"]
     },
 
+    "permissions": ["clipboardWrite"],
+
     "browser_action": {
         "default_icon": {
-            "128": "images/texhere/texhere.svg"
+            "128": "images/texhere/texhere.128.png"
         },
         "default_title": "TeX Math Here",
         "default_popup": "popup.html"

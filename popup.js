@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     let Browser;
-    let server = "http://localhost:5000/";
+    let server = "http://engine.mathaddons.com/";
     var font_data;
 
     try {

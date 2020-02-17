@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('<option></option>').attr('value', key).text(entry.description)
                 );
             })
+            persistentOptions("font");
             document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
         }).fail(function() { alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.'); })
     })
@@ -73,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
     persistentOptions("blue");
     persistentOptions("green");
     persistentOptions("DPI");
-    persistentOptions("font");
 
     var input = document.getElementById("code");
 

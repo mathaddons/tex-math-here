@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (retrieved_latex == 'undefined'){
             // IF NO PREVIOUS CODE WAS ENTERED
             if (localStorage.getItem("text") == null){
-                input.value = 'ax^2 + bx + c';
+                input.value = 'Enter code here';
             }
             else {
                 // CODE WAS PREVIOUSLY ENTERED

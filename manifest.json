@@ -28,10 +28,6 @@
 
     "content_scripts": [
         {
-            "matches": [ "<all_urls>" ],
-            "js": [ "main.js" ]
-        },
-        {
             "matches": [ "*://docs.google.com/document/*", "*://docs.google.com/presentation/*" ],
             "js": [ "dblclick_edit.js" ]
         },

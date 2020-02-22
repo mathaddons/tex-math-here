@@ -113,11 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // IF NO DOUBLE CLICK EDIT
         if (retrieved_latex == 'undefined'){
             // IF NO PREVIOUS CODE WAS ENTERED
-            if (localStorage.getItem("text") == null){
-                input.value = 'Enter code here';
-            }
-            else {
-                // CODE WAS PREVIOUSLY ENTERED
+            if (localStorage.getItem("text") != null){
                 input.value = localStorage.getItem("text");
             }
         }

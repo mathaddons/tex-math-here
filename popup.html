@@ -50,20 +50,28 @@
 
       <div id="fontLabel" style="font-size:10px;"></div>
 
-      <p class="disable-select" style = "font-family:helvetica,verdana,arial;font-size:16px;">
-        R <input type="number" title="Red" id="red" min="0" max="255" value="0">
-        G <input type="number" title="Green" id="green" min="0" max="255" value="0">
-        B <input type="number" title="Blue" id="blue" min="0" max="255" value="0">
-    </br>
-
+      <br />
+      <table class="disable-select"
+             style="font-family:helvetica,verdana,arial;font-size:11px;padding=20px">
+        <tr>
+          <td><input type="number" title="Red" id="red" min="0" max="255"
+          value="0"></td>
+          <td><input type="number" title="Green" id="green" min="0" max="255"
+          value="0"></td>
+          <td><input type="number" title="Blue" id="blue" min="0" max="255"
+          value="0"></td>
+        </tr>
+        <tr>
+          <td>Red (0-255)</td>
+          <td>Green (0-255)</td>
+          <td>Blue (0-255)</td>
+        </tr>
+      </table>
 
     <!-- DPI: <input type="number" id="DPI" value="300" width="1" />-->
     <br />
     <button type="submit" id="submitButton">Convert</button>
-
-
     </form>
-
 
     <h3>
       <p class="disable-select"
@@ -74,6 +82,5 @@
     <img id="result"></img>
     <p id="error"></img>
 
-    <br/>
   </body>
 </html>

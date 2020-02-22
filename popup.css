@@ -7,6 +7,17 @@ input[type=number] {
     width:50px;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: auto;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
 .disable-select {
     user-select: none; /* supported by Chrome and Opera */
    -webkit-user-select: none; /* Safari */

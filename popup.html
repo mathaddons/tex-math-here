@@ -24,7 +24,7 @@
       <select class="fonts" id="font"></select>
 
       <!--value corresponds to dpi (10 * the pt size value) -->
-      <select class="fontSize" id="DPI" title="Font size">
+      <select class="fontSize" id="DPI">
         <option value="80">8pt</option>
 		    <option value="90">9pt</option>
 		    <option value="100">10pt</option>
@@ -48,8 +48,11 @@
       </select>
 
       <input class="jscolor" id="color"
-             style="width:15%;font-size:14px;text-align:center">
-             <!-- value="000000" -->
+             spellcheck="false"
+             title="Enter the hexadecimal RGB representation of your color here, or
+                                               click to select a color."
+             style="width:15%;font-size:14px;text-align:center"
+             value="000000">
 
 
       <div id="fontLabel" style="font-size:10px;"></div>

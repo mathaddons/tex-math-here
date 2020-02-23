@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
         // Firefox
         Browser = browser;
-        document.getElementById("color").disabled = true;
     } catch(e) {
         try {
             // Chrome
@@ -40,40 +39,25 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
     })
 
-    // Pull default values from localstorage or set them to global defaults.
-    function setDefaultValue(id, optionType){
-        if(localStorage.getItem(id) === null){
-            if(optionType === "rgb"){
-                localStorage.setItem(id, 0);
+    // Keep option values/selections persistent after extension closes
+    function persistentOptions(selectID) {
+        var input = document.getElementById(selectID)
+        input.addEventListener('change', function () {
+            localStorage.setItem(selectID, input.value);
+        });
+        if(localStorage.getItem(selectID)){
+            var val = localStorage.getItem(selectID);
+            if(selectID == "color"){
+                input.jscolor.fromString(val);
             }
-            else if (optionType === "fontSize"){
-                localStorage.setItem(id, "180");
-            }
-            else if (optionType === "fontStyle"){
-                localStorage.setItem(id, "computer-modern");
+            else if(selectID == "DPI"){
+                input.value = val;
             }
         }
     }
 
-    setDefaultValue("red", "rgb");
-    setDefaultValue("blue", "rgb");
-    setDefaultValue("green", "rgb");
-    setDefaultValue("DPI", "fontSize");
-    setDefaultValue("font", "fontStyle");
-
-    // Keep option values/selections persistent after extension closes
-    function persistentOptions(selectID) {
-        var input = document.getElementById(selectID);
-        input.addEventListener('input', function () {
-            localStorage.setItem(selectID, input.value);
-        });
-        input.value = localStorage.getItem(selectID);
-    }
-
-    persistentOptions("red");
-    persistentOptions("blue");
-    persistentOptions("green");
     persistentOptions("DPI");
+    persistentOptions("color");
 
     var input = document.getElementById("code");
 
@@ -124,77 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("code").select();
     });
 
-    let color = document.getElementById('color');
-
-    // If the color is changed through the color picker menu the rgb values are updated accordingly.
-    // Reference for hexToRgb function:
-    // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    color.addEventListener('change', (e) => {
-        function hexToRgb(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        redColor = hexToRgb(color.value).r;
-        greenColor = hexToRgb(color.value).g;
-        blueColor = hexToRgb(color.value).b;
-
-        document.getElementById('red').value = redColor;
-        document.getElementById('green').value = greenColor;
-        document.getElementById('blue').value = blueColor;
-
-        localStorage.setItem("red", redColor);
-        localStorage.setItem("green", greenColor);
-        localStorage.setItem("blue", blueColor);
-    });
-
-    function colorPickerChange(){
-
-        let red = document.getElementById('red');
-        let green = document.getElementById('green');
-        let blue = document.getElementById('blue');
-
-        function rgbToHex (rgb) {
-            var hex = Number(rgb).toString(16);
-            if (hex.length < 2) {
-                hex = "0" + hex;
-            }
-            return hex;
-        };
-
-        function fullColorHex (r,g,b) {
-            var red = rgbToHex(r);
-            var green = rgbToHex(g);
-            var blue = rgbToHex(b);
-            return "#" + red + green + blue;
-        };
-
-        var fullHex = fullColorHex(red.value, green.value, blue.value);
-
-        // Sets the value in the html (with id = color) to the hex value for the rgb values entered
-        document.getElementById('color').value = fullHex;
-    }
-
-    // Loads last selected color in color picker box when extension is first opened
-    colorPickerChange();
-
-    // Adjusts color according to entered rgb values whenever there is a mousedown
-    document.body.addEventListener("mousedown", function(){
-        colorPickerChange();
-    });
-
-    // Adjusts color according to entered rgb value whenever the tab button is pressed
-    document.body.addEventListener("keydown", function (e){
-        if(e.keyCode == '9')
-        {
-            colorPickerChange();
-        }
-    });
-
     // LISTENS FOR KEY COMBO TO CONVERT IMAGE -- SEE BELOW
     document.body.addEventListener("keydown", function(e) {
         e = e || window.event;
@@ -229,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Set URL using configuration options
         let dataString = "?d=" + DPI.value +
-            "&c=" + colour.value.slice(1) +
+            "&c=" + colour.value +
             "&f=" + font.value;
 
         let value = server + 'image/' + latex + dataString;

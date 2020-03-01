@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
 
-        latex = encodeURIComponent(latex.replace(/\//g, '\\slash'));
+        latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, ''));
         sessionStorage.clear();
 
         // Set URL using configuration options

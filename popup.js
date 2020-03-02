@@ -10,9 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Chrome
             Browser = chrome;
-
         } catch(e) {
-            console.error('TeX Math Here: popup.js: ERROR BROWSER TYPE NOT DETECTED!');
+            console.error('TeX Math Here: popup.js: Unknown browser type.');
         }
     }
 
@@ -137,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
 
-        latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, ''));
+        latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g).replace(/\$/g).replace(/\\\[/g));
         sessionStorage.clear();
 
         // Set URL using configuration options
@@ -169,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 r.selectNode(img);
                 var sel = window.getSelection();
 
-                 // CLEARS THE SELECTION SO THAT NOTHING BUT WHAT IT SELECTS NEXT IS SELECTED ON COPY
+                 // CLEARS THE SELECTION SO THAT NOTHING BUT WHAT IT SELECTS
+                 // NEXT IS SELECTED ON COPY
                 sel.removeAllRanges();
                 sel.addRange(r);
                 document.execCommand('Copy');

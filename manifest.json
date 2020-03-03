@@ -2,7 +2,7 @@
 
     "manifest_version": 2,
     "name": "TeX Math Here",
-    "version": "0.7",
+    "version": "0.7L",
 
     "description": "Use the TeX markup language to take math here, there, or just about anywhere that images are supported.",
 

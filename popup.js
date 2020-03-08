@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             persistentOptions("font");
             document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
-        }).fail(function() { alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.'); })
+        }).fail(function() { alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.'); });
     })
 
     // Update the font dynamic name whenever the font selection changes.
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Keep option values/selections persistent after extension closes
     function persistentOptions(selectID) {
-        var input = document.getElementById(selectID)
+        var input = document.getElementById(selectID);
         input.addEventListener('change', function () {
             localStorage.setItem(selectID, input.value);
         });
@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', function () {
             var val = localStorage.getItem(selectID);
             if(selectID == "color"){
                 input.jscolor.fromString(val);
+            }
+            else if(selectID == "font"){
+                console.log(val);
+                font.value = val;
             }
             else if(selectID == "DPI"){
                 input.value = val;

@@ -1,52 +1,31 @@
-workflows:
-  version: 2
-  main:
-    jobs:
-      - build:
-          filters:
-            tags:
-              only: /.*/
-      - publish:
-          requires:
-            - build
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /.*/
-
-
 version: 2
 jobs:
   build:
     docker:
-      - image: cibuilds/chrome-extension:latest
+      - image: ubuntu:16.04
+    environment:
+      - APP_ID: gopfokpflndblbooehdbffnnjmnegeph
+      - PACKAGE: tex-math-here.zip
     steps:
       - checkout
       - run:
-          name: "Make Extension Production Ready"
+          name: "Install dependencies"
           command: |
-            jq '.version = "new-version"' manifest.json | sponge manifest.json
-            jq '.browser_action.default_icon = "icon.png"' manifest.json | sponge manifest.json
+            apt-get update
+            apt-get -y install curl jq git
+            # You can also install Yarn, NPM, or anything else you need to use
+            # to build and test your extension.
       - run:
-          name: "Run Tests"
+          name: "Run tests"
           command: echo "Run any tests here."
       - run:
-          name: "Package Extension"
-          command: git archive -o tex-math-here.zip HEAD
-      - persist_to_workspace:
-          root: /root/project
-          paths:
-            - tex-math-here.zip
-
-  publish:
-    docker:
-      - image: cibuilds/chrome-extension:latest
-    environment:
-      - APP_ID: gopfokpflndblbooehdbffnnjmnegeph 
-    steps:
-      - attach_workspace:
-          at: /root/workspace
+          name: "Package extension"
+          command: git archive -o $PACKAGE HEAD
       - run:
-          name: "Publish to the Google Chrome Store"
-          command: publish /root/workspace/tex-math-here.zip
+          name: "Upload & publish extension to the chrome store"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ACCESS_TOKEN=$(curl "https://accounts.google.com/o/oauth2/token" -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | jq -r .access_token)
+              curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -X PUT -T ${PACKAGE} -v "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${APP_ID}"
+              curl -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "x-goog-api-version: 2" -H "Content-Length: 0" -X POST -v "https://www.googleapis.com/chromewebstore/v1.1/items/${APP_ID}/publish"
+            fi

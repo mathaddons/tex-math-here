@@ -152,50 +152,46 @@ document.addEventListener('DOMContentLoaded', function () {
         var xhr = new XMLHttpRequest();
 
         xhr.onreadystatechange = function () {
-            // If the server has responded
+						// TODO: When the server processes and parses the code, thus filtering out any bad input,
+						// set the internal code text to what's returned. We want the filtering to be done server-side.
+
             if (xhr.readyState == 4) {
-                let imageExists = !!document.getElementById('latex_image');
-                if (imageExists){
-                    document.getElementById('latex_image').remove();
-                }
+								if (xhr.status == 200) {
+										let imageExists = !!document.getElementById('latex_image');
+										if (imageExists){
+												document.getElementById('latex_image').remove();
+										}
 
-                // Get image from URL and copy to clipboard
-                var img = document.createElement('img');
-                img.id = 'latex_image';
-                img.src = value;
-                document.body.appendChild(img);
-                img.alt = e.target.children.code.value;
-                img.title = e.target.children.code.value;
-                var r = document.createRange();
-                //r.setStartBefore(img);
-                //r.setEndAfter(img);
-                r.selectNode(img);
-                var sel = window.getSelection();
+										// Get image from URL and copy to clipboard
+										var img = document.createElement('img');
+										img.id = 'latex_image';
+										img.src = value;
+										document.body.appendChild(img);
 
-                 // CLEARS THE SELECTION SO THAT NOTHING BUT WHAT IT SELECTS
-                 // NEXT IS SELECTED ON COPY
-                sel.removeAllRanges();
-                sel.addRange(r);
-                document.execCommand('Copy');
+										img.alt = e.target.children.code.value;
+										img.title = e.target.children.code.value;
+										var range = document.createRange();
+										r.selectNode(img);
+										var sel = window.getSelection();
 
-                // CLEARS THE SELECTION SO THAT THE IMAGE DOESN'T LOOK BLUE AT THE END (AESTHETIC)
-                sel.removeAllRanges();
-            }
-
-            if(xhr.readyState == 4 && xhr.status == 0 && Browser == chrome){
-                alert("Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes.")
-            }
+										// Clears the selection so that nothing but what it selects next is selected on copy.
+										sel.removeAllRanges();
+										sel.addRange(range);
+										document.execCommand('Copy');
+										sel.removeAllRanges();
+								} else if (xhr.status == 500) {
+										// TODO: Report the specific compliation error.
+										alert("The given LaTeX code could not be compiled. Please ensure you have entered your code properly.");
+								} else {
+										alert("Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes.");
+								}
+						}
 
             xhr.timeout = 10000; // 10 seconds
-
-            // After 10 seconds have passed
             xhr.ontimeout = function (){
-                //If the browser is Firefox and timeout has occurred
-                if (Browser == browser){
-                    alert("Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes.")
-                }
-            }
-        }
+								alert("The request to the server has timed out. Please verify your computer's network connection.");
+						};
+				};
 
         xhr.open('GET', value, true);
         xhr.send();

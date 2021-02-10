@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 //+ if the extension is closed and then reopened
                 let alerted = sessionStorage.getItem(text) || null;
                 if(alerted != "yes") {
-                    alert("The LaTeX " + text + " will be removed from the output.");
+                    alert("The LaTeX \"" + text + "\" will be removed from the output.");
                     sessionStorage.setItem(text, "yes");
                 }
             }
@@ -90,7 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
         checkInput("\\openout");
         checkInput("\\closein");
         checkInput("\\closeout");
-        checkInput("\\write18");
+				checkInput("\\immediate");
+        checkInput("\\write14");
+				checkInput("\\write18");
     });
 
     // SENDS MESSAGE TO latex_transport.js,

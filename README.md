@@ -16,6 +16,15 @@ Get TeX Math Here for
 and
 [Chrome](https://chrome.google.com/webstore/detail/tex-math-here/gopfokpflndblbooehdbffnnjmnegeph).
 
+The [`web-ext`](https://github.com/mozilla/web-ext) tool comes quite in handy
+for debugging purposes. On Linux, you can use the following to test our target
+browsers:
+
+ |---------|------------------|
+ | Firefox | `web-ext run` |
+ | Chrome | `web-ext run -t chromium` |
+ | [Edge](https://www.microsoftedgeinsider.com/en-us/) | `web-ext run -t chromium --chromium-binary $(which microsoft-edge)` |
+
 ## Summer 2018 Contributors
  - Daniel S.
  - Amy L.

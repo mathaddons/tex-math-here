@@ -20,6 +20,7 @@ The [`web-ext`](https://github.com/mozilla/web-ext) tool comes quite in handy
 for debugging purposes. On Linux, you can use the following to test our target
 browsers:
 
+ |  |   |
  |---------|------------------|
  | Firefox | `web-ext run` |
  | Chrome | `web-ext run -t chromium` |

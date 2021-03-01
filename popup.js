@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
 										img.alt = e.target.children.code.value;
 										img.title = e.target.children.code.value;
 										var range = document.createRange();
-										r.selectNode(img);
+										range.selectNode(img);
 										var sel = window.getSelection();
 
 										// Clears the selection so that nothing but what it selects next is selected on copy.

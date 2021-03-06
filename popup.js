@@ -27,16 +27,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 font_selector.append(
                     $('<option></option>').attr('value', key).text(entry.description)
                 );
-            })
+            });
             persistentOptions("font");
             document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
         }).fail(function() { alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.'); });
-    })
+    });
 
     // Update the font dynamic name whenever the font selection changes.
     font.addEventListener("input", function(){
         document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
-    })
+    });
 
     // Keep option values/selections persistent after extension closes
     function persistentOptions(selectID) {

@@ -168,13 +168,4 @@ document.addEventListener('DOMContentLoaded', function () {
         xhr.send();
     });
 
-    //This version opens a new tab with the image instead of copying to clipboard
-    //Currently do not know how to have both options available, buttons were being weird if they didn't have the submit attribute attached
-    //form.addEventListener('submit', function (e) {
-    //    e.preventDefault();
-    //    let value = 'http://latex.codecogs.com/gif.latex?' + e.target.children.code.value
-    //    window.open(value, '_blank');
-    //    console.log(code)
-    //})
-
 }, false);

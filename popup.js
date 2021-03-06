@@ -64,37 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var input = document.getElementById("code");
 
-    // Listens for a change of input in the text box
-    input.addEventListener('input', function () {
-        localStorage.setItem("text", input.value);
-
-        function checkInput(text) {
-            if (input.value.includes(text)) {
-                // Alerted is set to "yes" if the alert has already
-                //+ been shown for the key value, otherwise it is set to null
-                // Session storage used so the value "yes" does not persist
-                //+ if the extension is closed and then reopened
-                let alerted = sessionStorage.getItem(text) || null;
-                if(alerted != "yes") {
-                    alert("The LaTeX \"" + text + "\" will be removed from the output.");
-                    sessionStorage.setItem(text, "yes");
-                }
-            }
-        }
-
-        checkInput("\\include");
-        checkInput("\\input");
-        checkInput("\\newread");
-        checkInput("\\newwrite");
-        checkInput("\\openin");
-        checkInput("\\openout");
-        checkInput("\\closein");
-        checkInput("\\closeout");
-				checkInput("\\immediate");
-        checkInput("\\write14");
-				checkInput("\\write18");
-    });
-
     // SENDS MESSAGE TO latex_transport.js,
     // QUERYING IF DOUBLE CLICK EDIT HAS BEEN USED.
     // IF YES, DATA IS SENT BACK AND STORED IN retrieved_latex,

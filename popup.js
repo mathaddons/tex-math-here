@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
 										var img = document.createElement('img');
 										img.id = 'latex_image';
 										img.src = value;
-										document.body.appendChild(img);
+										document.getElementById('displayarea').appendChild(img);
 
 										img.alt = e.target.children.code.value;
 										img.title = e.target.children.code.value;

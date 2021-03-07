@@ -45,23 +45,19 @@ document.addEventListener('DOMContentLoaded', function () {
         input.addEventListener('change', function () {
             localStorage.setItem(selectID, input.value);
         });
-        if(localStorage.getItem(selectID)){
+        if(localStorage.getItem(selectID)) {
             var val = localStorage.getItem(selectID);
-            if(selectID == "color"){
+            if (selectID == "color") {
                 input.jscolor.fromString(val);
-            }
-            else if(selectID == "font"){
-                console.log(val);
-                font.value = val;
-            }
-            else if(selectID == "DPI"){
+            } else {
                 input.value = val;
-            }
+						}
         }
     }
 
     persistentOptions("DPI");
     persistentOptions("color");
+		persistentOptions("code");
 
     var input = document.getElementById("code");
 
@@ -113,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let latex = e.target.children.code.value;
 
         latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, ""));
-        sessionStorage.clear();
 
         // Set URL using configuration options
         let dataString = "?d=" + DPI.value +

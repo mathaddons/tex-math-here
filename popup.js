@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 										// Get image from URL and copy to clipboard
 										var img = document.createElement('img');
+										img.className = 'math';
 										img.id = 'latex_image';
 										img.src = value;
 										document.getElementById('displayarea').appendChild(img);

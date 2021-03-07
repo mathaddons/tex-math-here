@@ -24,6 +24,11 @@ th, td {
   text-align: center;
 }
 
+.math {
+		display: block;
+		margin: 0 auto;
+}
+
 .disable-select {
     user-select: none; /* supported by Chrome and Opera */
    -webkit-user-select: none; /* Safari */

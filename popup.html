@@ -10,16 +10,22 @@
     <link rel="stylesheet" type="text/css" href="popup.css">
   </head>
   <body>
-    <h3>
-      <p class="disable-select"
-         style="font-family:helvetica,verdana,arial;font-size:16px;">
-        Enter T<sub>E</sub>X math code: do not enclose in $ $ or \[ \]</p>
-    </h3>
+		<center>
+			<img style="height:80px;pointer-events:none;" class="disable-select"
+					 src="images/texhere/combo.svg"
+					 id="logo" alt="TeX Math Here">
+	  </center>
 
+		<p style="font-family:helvetica,verdana,arial;font-size:12px;margin:5px">
+			(Do not enclose code in  $ $ or \[ \].)
+		</p>
 
     <form id="form">
-      <textarea class="TeX" id="code" rows="4" cols="52"
-      style="resize:none">Enter code here</textarea> <br/>
+      <textarea id="code" rows="4" cols="53"
+								class="TeX"
+								title="Enter TeX here"
+								style="resize:none" spellcheck="false">Enter code here</textarea>
+			<br/>
 
       <select class="fonts" id="font"></select>
 
@@ -49,26 +55,20 @@
 
       <input class="jscolor" id="color"
              spellcheck="false"
-             title="Enter the hexadecimal RGB representation of your color here, or
-                                               click to select a color."
+             title="Enter the hexadecimal RGB representation of your color here, or click to select a color."
              style="width:15%;font-size:14px;text-align:center"
              value="000000">
 
-
       <div id="fontLabel" style="font-size:10px;"></div>
 
-    <br />
-    <button type="submit" id="submitButton">Convert</button>
+    <button type="submit" id="submitButton" style="margin-top:10px">Convert</button>
     </form>
 
     <h3>
-      <p class="disable-select"
-         style="font-family:helvetica,verdana,arial;font-size:16px;">
+      <p style="font-family:helvetica,verdana,arial;font-size:16px;">
         Preview (automatically copies to clipboard)</p>
     </h3>
 
     <img id="result"></img>
-    <p id="error"></img>
-
   </body>
 </html>

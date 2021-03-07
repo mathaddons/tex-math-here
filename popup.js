@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     let Browser;
     let server = "http://engine.mathaddons.com/";
+		// let server = "http://localhost:5000/"; //
     var font_data;
 
     try {
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Browser = browser;
     } catch(e) {
         try {
-            // Chrome
+            // Chrome and Edge
             Browser = chrome;
         } catch(e) {
             console.error('TeX Math Here: popup.js: Unknown browser type.');

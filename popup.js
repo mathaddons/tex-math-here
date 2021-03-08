@@ -16,41 +16,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Populate the font selector from server fonts
+    // Populate the selectors from server
     let font = document.getElementById("font");
 		$(document).ready(function() {
         let font_selector = $('#font');
+				let dpi = $('#DPI');
+
+        dpi.empty();
         font_selector.empty();
 
-        $.getJSON(server + "fonts", function (data) {
-            font_data = data;
-            $.each(data, function (key, entry) {
+        $.getJSON(server + "params", function (data) {
+						// Fonts
+            font_data = data["fonts"];
+            $.each(font_data, function (key, entry) {
                 font_selector.append(
                     $('<option></option>').attr('value', key).text(entry.description)
                 );
             });
             persistentOptions("font");
             document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
-        }).fail(function() {
-						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
-						Window.close();
-				});
-    });
 
-		// Populate the DPI selector from server DPIs
-		$(document).ready(function() {
-        let dpi = $('#DPI');
-        dpi.empty();
-
-        $.getJSON(server + "dpis", function (data) {
-            $.each(data["options"], function (key, entry) {
+						// DPI
+						let dpi_data = data["dpis"];
+            $.each(dpi_data["options"], function (key, entry) {
                 dpi.append(
                     $('<option></option>').attr('value', key).text(entry)
                 );
             });
-
-						dpi.val(data["default"]);
-            persistentOptions("DPI");
+						dpi.val(dpi_data["default"]);
+						persistentOptions("DPI");
         }).fail(function() {
 						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
 						Window.close();

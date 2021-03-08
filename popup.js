@@ -189,9 +189,10 @@ document.addEventListener('DOMContentLoaded', function () {
 										img.id = 'latex_image';
 										img.src = value;
 								} else if (xhr.status == 500) {
-										// TODO: Report the specific compliation error.
+										document.getElementById("loader").style.display = "none";
 										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(xhr.responseText)['message']);
 								} else {
+										document.getElementById("loader").style.display = "none";
 										alert("TeX Math Here: popup.js: An internal server error has occurred. Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes or contact the extension developer to check on the server status.");
 								}
 						}

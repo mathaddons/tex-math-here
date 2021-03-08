@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Populate the font selector from server fonts
     let font = document.getElementById("font");
-    $(document).ready(function() {
+		$(document).ready(function() {
         let font_selector = $('#font');
         font_selector.empty();
 
@@ -35,7 +35,26 @@ document.addEventListener('DOMContentLoaded', function () {
 						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
 						Window.close();
 				});
+    });
 
+		// Populate the DPI selector from server DPIs
+		$(document).ready(function() {
+        let dpi = $('#DPI');
+        dpi.empty();
+
+        $.getJSON(server + "dpis", function (data) {
+            $.each(data["options"], function (key, entry) {
+                dpi.append(
+                    $('<option></option>').attr('value', key).text(entry)
+                );
+            });
+
+						dpi.val(data["default"]);
+            persistentOptions("DPI");
+        }).fail(function() {
+						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
+						Window.close();
+				});
     });
 
     // Update the font dynamic name whenever the font selection changes.
@@ -59,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    persistentOptions("DPI");
     persistentOptions("color");
 		persistentOptions("code");
 

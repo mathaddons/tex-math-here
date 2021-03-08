@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Chrome and Edge
             Browser = chrome;
-						document.body.style.marginRight = "-4px";
         } catch(e) {
             console.error('TeX Math Here: popup.js: Unknown browser type.');
         }
@@ -19,7 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		// HACK: Get the actual client width when there is no image, and use this as
 		// maximum width. Setting it beforehand was too tricky.
-		document.body.style.width = Math.round(document.body.getBoundingClientRect().width).toString() + 'px';
+		let extRect = document.body.getBoundingClientRect();
+		document.body.style.width = extRect.width.toString() + 'px';
+
+		// The maximum extension dimensions are 800px by 600px. So we want the image
+		// area to not make the whole extension larger than 600px tall, otherwise
+		// unsightly scroll bars will appear.
+		document.getElementById("displayarea").style.maxHeight = (600 - extRect.height).toString() + 'px';
 
     // Populate the selectors from server
     let font = document.getElementById("font");

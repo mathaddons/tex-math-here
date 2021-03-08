@@ -11,10 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             // Chrome and Edge
             Browser = chrome;
+						document.body.style.marginRight = "-4px";
         } catch(e) {
             console.error('TeX Math Here: popup.js: Unknown browser type.');
         }
     }
+
+		// HACK: Get the actual client width when there is no image, and use this as
+		// maximum width. Setting it beforehand was too tricky.
+		document.body.style.width = Math.round(document.body.getBoundingClientRect().width).toString() + 'px';
 
     // Populate the selectors from server
     let font = document.getElementById("font");
@@ -160,8 +165,8 @@ document.addEventListener('DOMContentLoaded', function () {
 										// Get image from URL and copy to clipboard
 										var img = document.createElement('img');
 										img.onload = function () {
-												document.getElementById('displayarea').appendChild(img);
 												document.getElementById("loader").style.display = "none";
+												document.getElementById('displayarea').appendChild(img);
 
 												img.alt = e.target.children.code.value;
 												img.title = e.target.children.code.value;

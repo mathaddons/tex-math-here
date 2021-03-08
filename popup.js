@@ -31,7 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             persistentOptions("font");
             document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
-        }).fail(function() { alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.'); });
+        }).fail(function() {
+						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
+						Window.close();
+				});
+
     });
 
     // Update the font dynamic name whenever the font selection changes.

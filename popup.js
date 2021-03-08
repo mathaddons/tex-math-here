@@ -45,6 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 						dpi.val(dpi_data["default"]);
 						persistentOptions("DPI");
+
+						// Displaystyle
+						document.getElementById("displaystyle").checked = data["displaystyle"];
+						persistentOptions("displaystyle");
         }).fail(function() {
 						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
 						Window.close();
@@ -60,13 +64,17 @@ document.addEventListener('DOMContentLoaded', function () {
     function persistentOptions(selectID) {
         var input = document.getElementById(selectID);
         input.addEventListener('change', function () {
-            localStorage.setItem(selectID, input.value);
+            localStorage.setItem(selectID, (selectID == "displaystyle") ? input.checked : input.value);
         });
+
         if(localStorage.getItem(selectID)) {
             var val = localStorage.getItem(selectID);
             if (selectID == "color") {
                 input.jscolor.fromString(val);
-            } else {
+            } else if (selectID == "displaystyle") {
+								console.log(val);
+								input.checked = (val == "true");
+						} else {
                 input.value = val;
 						}
         }
@@ -123,13 +131,15 @@ document.addEventListener('DOMContentLoaded', function () {
         let DPI = document.getElementById('DPI');
         let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
+				let displaystyle = document.getElementById('displaystyle');
 
         latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, ""));
 
         // Set URL using configuration options
         let dataString = "?d=" + DPI.value +
             "&c=" + colour.value +
-            "&f=" + font.value;
+            "&f=" + font.value +
+						"&m=" + displaystyle.checked;
 
         let value = server + 'image/' + latex + dataString;
         var xhr = new XMLHttpRequest();

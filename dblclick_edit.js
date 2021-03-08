@@ -146,12 +146,12 @@ document.addEventListener('dblclick', function(e) {
                 // FOR CHROME
                 Browser = chrome;
             } catch(e) {
-                console.error('TeX Math Here: dblclick_edit.js: ERROR BROWSER TYPE NOT DETECTED!');
+                console.error('TeX Math Here: dblclick_edit.js: ERROR: BROWSER TYPE NOT DETECTED!');
             }
         }
 
         // SEND LATEX TO BACKGROUND SCRIPT FOR STORAGE UNTIL POPUP IS OPENED
         Browser.runtime.sendMessage({ type: 'latex_store', latex: latex_meta });
-        alert('Any embedded TeX in the image can now be found in the TeX Math Here TeX editor.');
+        alert('Any embedded TeX in the image can now be found in the TeX Math Here code editor.');
     }
 });

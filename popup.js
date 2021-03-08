@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		$(document).ready(function() {
         let font_selector = $('#font');
 				let dpi = $('#DPI');
+				let format = $('#format');
 
         dpi.empty();
         font_selector.empty();
@@ -55,6 +56,16 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 						dpi.val(dpi_data["default"]);
 						persistentOptions("DPI");
+
+						// Formats
+						let format_data = data["formats"];
+						$.each(format_data["options"], function (key, entry) {
+                format.append(
+                    $('<option></option>').attr('value', key).text(entry)
+                );
+            });
+						format.val(format_data["default"]);
+						persistentOptions("format");
 
 						// Displaystyle
 						document.getElementById("displaystyle").checked = data["displaystyle"];
@@ -141,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let colour = document.getElementById('color');
         let latex = e.target.children.code.value;
 				let displaystyle = document.getElementById('displaystyle');
+				let format = document.getElementById('format');
 
         latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, ""));
 
@@ -148,14 +160,14 @@ document.addEventListener('DOMContentLoaded', function () {
         let dataString = "?d=" + DPI.value +
             "&c=" + colour.value +
             "&f=" + font.value +
-						"&m=" + displaystyle.checked;
+						"&m=" + displaystyle.checked +
+						"&t=" + format.value;
 
         let value = server + 'image/' + latex + dataString;
         var xhr = new XMLHttpRequest();
 
-				let imageExists = !!document.getElementById('latex_image');
-				if (imageExists){
-						document.getElementById('latex_image').remove();
+				if (!!document.getElementById('output')) {
+						document.getElementById('output').remove();
 				}
 
 				document.getElementById("loader").style.display = "block";
@@ -167,27 +179,37 @@ document.addEventListener('DOMContentLoaded', function () {
             if (xhr.readyState == 4) {
 								if (xhr.status == 200) {
 										// Get image from URL and copy to clipboard
-										var img = document.createElement('img');
-										img.onload = function () {
+										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
+												var img = document.createElement('img');
+												img.onload = function () {
+														document.getElementById("loader").style.display = "none";
+														document.getElementById('displayarea').appendChild(img);
+
+														img.alt = e.target.children.code.value;
+														img.title = e.target.children.code.value;
+														var range = document.createRange();
+														range.selectNode(img);
+														var sel = window.getSelection();
+
+														// Clears the selection so that nothing but what it selects next is selected on copy.
+														sel.removeAllRanges();
+														sel.addRange(range);
+														document.execCommand('Copy');
+														sel.removeAllRanges();
+												};
+
+												img.className = 'math';
+												img.id = 'output';
+												img.src = value;
+										} else if (format.value == "mml" || format.value == "speech") {
 												document.getElementById("loader").style.display = "none";
-												document.getElementById('displayarea').appendChild(img);
-
-												img.alt = e.target.children.code.value;
-												img.title = e.target.children.code.value;
-												var range = document.createRange();
-												range.selectNode(img);
-												var sel = window.getSelection();
-
-												// Clears the selection so that nothing but what it selects next is selected on copy.
-												sel.removeAllRanges();
-												sel.addRange(range);
-												document.execCommand('Copy');
-												sel.removeAllRanges();
+												var par = document.createElement('p');
+												par.textContent = xhr.responseText;
+												par.id = 'output';
+												document.getElementById('displayarea').appendChild(par);
+										} else {
+												alert("TeX Math Here: popup.js: Unknown response format type: " + format.value);
 										}
-
-										img.className = 'math';
-										img.id = 'latex_image';
-										img.src = value;
 								} else if (xhr.status == 500) {
 										document.getElementById("loader").style.display = "none";
 										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(xhr.responseText)['message']);

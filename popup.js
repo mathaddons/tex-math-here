@@ -122,35 +122,41 @@ document.addEventListener('DOMContentLoaded', function () {
         let value = server + 'image/' + latex + dataString;
         var xhr = new XMLHttpRequest();
 
+				let imageExists = !!document.getElementById('latex_image');
+				if (imageExists){
+						document.getElementById('latex_image').remove();
+				}
+
+				document.getElementById("loader").style.display = "block";
+
         xhr.onreadystatechange = function () {
 						// TODO: When the server processes and parses the code, thus filtering out any bad input,
 						// set the internal code text to what's returned. We want the filtering to be done server-side.
 
             if (xhr.readyState == 4) {
 								if (xhr.status == 200) {
-										let imageExists = !!document.getElementById('latex_image');
-										if (imageExists){
-												document.getElementById('latex_image').remove();
-										}
-
 										// Get image from URL and copy to clipboard
 										var img = document.createElement('img');
+										img.onload = function () {
+												document.getElementById('displayarea').appendChild(img);
+												document.getElementById("loader").style.display = "none";
+
+												img.alt = e.target.children.code.value;
+												img.title = e.target.children.code.value;
+												var range = document.createRange();
+												range.selectNode(img);
+												var sel = window.getSelection();
+
+												// Clears the selection so that nothing but what it selects next is selected on copy.
+												sel.removeAllRanges();
+												sel.addRange(range);
+												document.execCommand('Copy');
+												sel.removeAllRanges();
+										}
+
 										img.className = 'math';
 										img.id = 'latex_image';
 										img.src = value;
-										document.getElementById('displayarea').appendChild(img);
-
-										img.alt = e.target.children.code.value;
-										img.title = e.target.children.code.value;
-										var range = document.createRange();
-										range.selectNode(img);
-										var sel = window.getSelection();
-
-										// Clears the selection so that nothing but what it selects next is selected on copy.
-										sel.removeAllRanges();
-										sel.addRange(range);
-										document.execCommand('Copy');
-										sel.removeAllRanges();
 								} else if (xhr.status == 500) {
 										// TODO: Report the specific compliation error.
 										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(xhr.responseText)['message']);

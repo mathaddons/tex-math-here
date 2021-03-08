@@ -37,15 +37,6 @@ th, td {
    -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
-.error-display {
-    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
-    font-size: 16px;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 400;
-    line-height: 20px;
-}
-
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;

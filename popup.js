@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (selectID == "color") {
                 input.jscolor.fromString(val);
             } else if (selectID == "displaystyle") {
-								console.log(val);
 								input.checked = (val == "true");
 						} else {
                 input.value = val;

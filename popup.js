@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let value = server + 'image/' + latex + dataString;
         var xhr = new XMLHttpRequest();
 
+				document.getElementById("clipboardstatus").style.display = "none";
 				if (!!document.getElementById('output')) {
 						document.getElementById('output').remove();
 				}
@@ -196,6 +197,15 @@ document.addEventListener('DOMContentLoaded', function () {
 														sel.addRange(range);
 														document.execCommand('Copy');
 														sel.removeAllRanges();
+
+														var clipboardStatus = document.getElementById("clipboardstatus");
+														if (browser == browser) {
+																clipboardStatus.textContent = "(drag or right-click to copy)";
+														} else {
+																clipboardStatus.textContent = "(copied to clipboard)";
+														}
+
+														clipboardStatus.style.display = "block";
 												};
 
 												img.className = 'math';

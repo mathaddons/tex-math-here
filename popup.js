@@ -178,56 +178,56 @@ document.addEventListener('DOMContentLoaded', function () {
 						// set the internal code text to what's returned. We want the filtering to be done server-side.
 
             if (xhr.readyState == 4) {
+								let range = document.createRange();
 								if (xhr.status == 200) {
-										// Get image from URL and copy to clipboard
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
 												var img = document.createElement('img');
 												img.onload = function () {
 														document.getElementById("loader").style.display = "none";
-														document.getElementById('displayarea').appendChild(img);
-
 														img.alt = e.target.children.code.value;
 														img.title = e.target.children.code.value;
-														var range = document.createRange();
+
+														document.getElementById('displayarea').appendChild(img);
 														range.selectNode(img);
-														var sel = window.getSelection();
-
-														// Clears the selection so that nothing but what it selects next is selected on copy.
-														sel.removeAllRanges();
-														sel.addRange(range);
-														document.execCommand('Copy');
-														sel.removeAllRanges();
-
-														var clipboardStatus = document.getElementById("clipboardstatus");
-														if (browser == browser) {
-																clipboardStatus.textContent = "(drag or right-click to copy)";
-														} else {
-																clipboardStatus.textContent = "(copied to clipboard)";
-														}
-
-														clipboardStatus.style.display = "block";
 												};
 
 												img.className = 'math';
 												img.id = 'output';
 												img.src = value;
 										} else if (format.value == "mml" || format.value == "speech") {
-												document.getElementById("loader").style.display = "none";
 												var par = document.createElement('p');
 												par.textContent = xhr.responseText;
 												par.id = 'output';
 												par.className = "enable-select";
+
 												document.getElementById('displayarea').appendChild(par);
+												range.selectNode(par);
 										} else {
 												alert("TeX Math Here: popup.js: Unknown response format type: " + format.value);
 										}
 								} else if (xhr.status == 500) {
-										document.getElementById("loader").style.display = "none";
 										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(xhr.responseText)['message']);
 								} else {
-										document.getElementById("loader").style.display = "none";
 										alert("TeX Math Here: popup.js: An internal server error has occurred. Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes or contact the extension developer to check on the server status.");
 								}
+
+								document.getElementById("loader").style.display = "none";
+
+								// Clears the selection so that nothing but what it selects next is selected on copy.
+								var sel = window.getSelection();
+								sel.removeAllRanges();
+								sel.addRange(range);
+								document.execCommand('Copy');
+								sel.removeAllRanges();
+
+								var clipboardStatus = document.getElementById("clipboardstatus");
+								if (browser == browser) {
+										clipboardStatus.textContent = "(drag or right-click to copy)";
+								} else {
+										clipboardStatus.textContent = "(copied to clipboard)";
+								}
+
+								clipboardStatus.style.display = "block";
 						}
 
             xhr.timeout = 10000; // 10 seconds

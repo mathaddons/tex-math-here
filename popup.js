@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
 												var par = document.createElement('p');
 												par.textContent = xhr.responseText;
 												par.id = 'output';
+												par.className = "enable-select";
 												document.getElementById('displayarea').appendChild(par);
 										} else {
 												alert("TeX Math Here: popup.js: Unknown response format type: " + format.value);

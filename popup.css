@@ -37,6 +37,15 @@ th, td {
    -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
+.enable-select {
+		-webkit-touch-callout: auto;
+		user-select: all; /* supported by Chrome and Opera */
+		-webkit-user-select: all; /* Safari */
+		-khtml-user-select: all; /* Konqueror HTML */
+		-moz-user-select: all; /* Firefox */
+		-ms-user-select: all; /* Internet Explorer/Edge */
+}
+
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;

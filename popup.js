@@ -105,6 +105,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var input = document.getElementById("code");
 
+		function finishLoading(range) {
+				document.getElementById("loader").style.display = "none";
+
+				// Clears the selection so that nothing but what it selects next is selected on copy.
+				var sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+				document.execCommand('Copy');
+				sel.removeAllRanges();
+
+				var clipboardStatus = document.getElementById("clipboardstatus");
+				if (browser == browser) {
+						clipboardStatus.textContent = "(drag or right-click to copy)";
+				} else {
+						clipboardStatus.textContent = "(copied to clipboard)";
+				}
+
+				clipboardStatus.style.display = "block";
+		}
+
     // SENDS MESSAGE TO latex_transport.js,
     // QUERYING IF DOUBLE CLICK EDIT HAS BEEN USED.
     // IF YES, DATA IS SENT BACK AND STORED IN retrieved_latex,
@@ -189,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 														document.getElementById('displayarea').appendChild(img);
 														range.selectNode(img);
+														finishLoading(range);
 												};
 
 												img.className = 'math';
@@ -202,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 												document.getElementById('displayarea').appendChild(par);
 												range.selectNode(par);
+												finishLoading(range);
 										} else {
 												alert("TeX Math Here: popup.js: Unknown response format type: " + format.value);
 										}
@@ -210,24 +232,6 @@ document.addEventListener('DOMContentLoaded', function () {
 								} else {
 										alert("TeX Math Here: popup.js: An internal server error has occurred. Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes or contact the extension developer to check on the server status.");
 								}
-
-								document.getElementById("loader").style.display = "none";
-
-								// Clears the selection so that nothing but what it selects next is selected on copy.
-								var sel = window.getSelection();
-								sel.removeAllRanges();
-								sel.addRange(range);
-								document.execCommand('Copy');
-								sel.removeAllRanges();
-
-								var clipboardStatus = document.getElementById("clipboardstatus");
-								if (browser == browser) {
-										clipboardStatus.textContent = "(drag or right-click to copy)";
-								} else {
-										clipboardStatus.textContent = "(copied to clipboard)";
-								}
-
-								clipboardStatus.style.display = "block";
 						}
 
             xhr.timeout = 10000; // 10 seconds

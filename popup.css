@@ -55,6 +55,8 @@ th, td {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 	margin: 0 auto;
+	/* TOOD: Make the margin automatically fit for all screen sizes and borowsers. */
+	margin-bottom: 38px;
 }
 
 /* Safari */

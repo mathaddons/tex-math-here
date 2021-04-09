@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 		function finishLoading(range) {
 				document.getElementById("loader").style.display = "none";
+				document.getElementById("displayarea").style.display = "block";
 
 				// Clears the selection so that nothing but what it selects next is selected on copy.
 				var sel = window.getSelection();
@@ -191,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						document.getElementById('output').remove();
 				}
 
+				document.getElementById("displayarea").style.display = "none";
 				document.getElementById("loader").style.display = "block";
 
         xhr.onreadystatechange = function () {

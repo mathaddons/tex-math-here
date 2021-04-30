@@ -133,13 +133,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // IF NO DOUBLE CLICK EDIT
         if (retrieved_latex == 'undefined'){
             // IF NO PREVIOUS CODE WAS ENTERED
-            if (localStorage.getItem("text") != null){
-                input.value = localStorage.getItem("text");
+            if (localStorage.getItem("code") != null){
+                input.value = localStorage.getItem("code");
             }
         }
         else {   // DOUBLE CLICK EDIT WAS USED
             input.value = retrieved_latex;
-            localStorage.setItem("text", retrieved_latex);
+            localStorage.setItem("code", retrieved_latex);
         }
         document.getElementById("code").select();
     });

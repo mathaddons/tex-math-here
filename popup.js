@@ -193,6 +193,10 @@ document.addEventListener('DOMContentLoaded', function () {
 														img.alt = result["result"];
 														img.title = result["result"];
 
+														if (!!document.getElementById('output')) {
+																document.getElementById('output').remove();
+														}
+
 														document.getElementById('displayarea').appendChild(img);
 														range.selectNode(img);
 														finishLoading(range);

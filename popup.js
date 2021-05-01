@@ -196,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				postxhr.onreadystatechange = function() {
 						if (postxhr.readyState == 4) {
 								if (postxhr.status == 200) {
+										let result = JSON.parse(postxhr.responseText);
 										let range = document.createRange();
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
 												var img = document.createElement('img');
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 												img.className = 'math';
 												img.id = 'output';
-												img.src = server + '/fetch/' + postxhr.responseText;
+												img.src = server + '/fetch/' + result["id"];
 										} else if (format.value == "mml" || format.value == "speech") {
 												var par = document.createElement('p');
 												par.textContent = postxhr.responseText;

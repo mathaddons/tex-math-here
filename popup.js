@@ -184,9 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
 				postxhr.onreadystatechange = function() {
 						if (postxhr.readyState == 4) {
 								if (postxhr.status == 200) {
-										let result = JSON.parse(postxhr.responseText);
 										let range = document.createRange();
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
+												let result = JSON.parse(postxhr.responseText);
 												var img = document.createElement('img');
 												img.onload = function () {
 														document.getElementById("loader").style.display = "none";

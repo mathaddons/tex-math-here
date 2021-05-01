@@ -149,32 +149,21 @@ document.addEventListener('DOMContentLoaded', function () {
         e = e || window.event;
 
         // Ctrl+Enter for Windows and Linux -- additional Command+Enter option for Mac
-        if ((e.ctrlKey || e.metaKey) && e.key === "Enter")
-        {
-            let focusElement = document.activeElement;
-
-            // In case element in focus is a text box, blurs it so a strange
-            // Firefox auto-copy bug doesn't occur.
-            focusElement.blur();
-
-            document.getElementById('submitButton').click();
-            focusElement.focus();
+        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+						submitCode(undefined);
         }
     });
 
-    // Submit - occurs when the user presses the "Submit" button or Ctrl+Enter
-    // Should copy image to clipboard
-    let form = document.getElementById('form');
-    form.addEventListener('submit', function (e){
-        e.preventDefault();
+		function submitCode (e) {
+				if (e != undefined)
+						e.preventDefault();
 
 				// Change user display
 				document.getElementById("clipboardstatus").style.display = "none";
-				if (!!document.getElementById('output')) {
-						document.getElementById('output').remove();
-				}
+				let displayarea = document.getElementById("displayarea");
+				displayarea.style.display = "none";
+				displayarea.textContent = '';
 
-				document.getElementById("displayarea").style.display = "none";
 				document.getElementById("loader").style.display = "block";
 
         // Get values from user configuration
@@ -184,14 +173,13 @@ document.addEventListener('DOMContentLoaded', function () {
 						"f": document.getElementById('font').value,
 						"m": document.getElementById('displaystyle').checked,
 						"t": document.getElementById('format').value,
-						"raw": e.target.children.code.value.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, "")
+						"raw": document.getElementById("code").value.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, "")
 				});
 
 				// Post JSON with configuration options, and get the image returned.
 				var postxhr = new XMLHttpRequest();
 				postxhr.open("POST", server + '/compile', true);
 				postxhr.setRequestHeader("Content-Type", "application/json");
-				// postxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 
 				postxhr.onreadystatechange = function() {
 						if (postxhr.readyState == 4) {
@@ -202,8 +190,8 @@ document.addEventListener('DOMContentLoaded', function () {
 												var img = document.createElement('img');
 												img.onload = function () {
 														document.getElementById("loader").style.display = "none";
-														img.alt = e.target.children.code.value;
-														img.title = e.target.children.code.value;
+														img.alt = result["result"];
+														img.title = result["result"];
 
 														document.getElementById('displayarea').appendChild(img);
 														range.selectNode(img);
@@ -238,6 +226,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				};
 
 				postxhr.send(data);
-		});
+		};
+
+    // Submit - occurs when the user presses the "Submit" button or Ctrl+Enter
+    // Should copy image to clipboard
+    let form = document.getElementById('form');
+    form.addEventListener('submit', submitCode);
 
 }, false);

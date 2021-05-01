@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     let Browser;
-    let server = "http://engine.mathaddons.com/";
-		// let server = "http://localhost:5000/"; //
+    let server = "http://engine.mathaddons.com";
+		// let server = "http://localhost:5000"; //
     var font_data;
 
     try {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dpi.empty();
         font_selector.empty();
 
-        $.getJSON(server + "params", function (data) {
+        $.getJSON(server + "/params", function (data) {
 						// Fonts
             font_data = data["fonts"];
             $.each(font_data, function (key, entry) {
@@ -167,26 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let form = document.getElementById('form');
     form.addEventListener('submit', function (e){
         e.preventDefault();
-        // Get values from user configuration
-        let font = document.getElementById('font');
-        let DPI = document.getElementById('DPI');
-        let colour = document.getElementById('color');
-        let latex = e.target.children.code.value;
-				let displaystyle = document.getElementById('displaystyle');
-				let format = document.getElementById('format');
 
-        latex = encodeURIComponent(latex.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, ""));
-
-        // Set URL using configuration options
-        let dataString = "?d=" + DPI.value +
-            "&c=" + colour.value +
-            "&f=" + font.value +
-						"&m=" + displaystyle.checked +
-						"&t=" + format.value;
-
-        let value = server + 'image/' + latex + dataString;
-        var xhr = new XMLHttpRequest();
-
+				// Change user display
 				document.getElementById("clipboardstatus").style.display = "none";
 				if (!!document.getElementById('output')) {
 						document.getElementById('output').remove();
@@ -195,13 +177,26 @@ document.addEventListener('DOMContentLoaded', function () {
 				document.getElementById("displayarea").style.display = "none";
 				document.getElementById("loader").style.display = "block";
 
-        xhr.onreadystatechange = function () {
-						// TODO: When the server processes and parses the code, thus filtering out any bad input,
-						// set the internal code text to what's returned. We want the filtering to be done server-side.
+        // Get values from user configuration
+				var data = JSON.stringify({
+						"d": document.getElementById('DPI').value,
+						"c": document.getElementById('color').value,
+						"f": document.getElementById('font').value,
+						"m": document.getElementById('displaystyle').checked,
+						"t": document.getElementById('format').value,
+						"raw": e.target.children.code.value.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, "")
+				});
 
-            if (xhr.readyState == 4) {
-								let range = document.createRange();
-								if (xhr.status == 200) {
+				// Post JSON with configuration options, and get the image returned.
+				var postxhr = new XMLHttpRequest();
+				postxhr.open("POST", server + '/compile', true);
+				postxhr.setRequestHeader("Content-Type", "application/json");
+				// postxhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+				postxhr.onreadystatechange = function() {
+						if (postxhr.readyState == 4) {
+								if (postxhr.status == 200) {
+										let range = document.createRange();
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
 												var img = document.createElement('img');
 												img.onload = function () {
@@ -216,34 +211,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 												img.className = 'math';
 												img.id = 'output';
-												img.src = value;
+												img.src = server + '/fetch/' + postxhr.responseText;
 										} else if (format.value == "mml" || format.value == "speech") {
 												var par = document.createElement('p');
-												par.textContent = xhr.responseText;
+												par.textContent = postxhr.responseText;
 												par.id = 'output';
 												par.className = "enable-select";
 
 												document.getElementById('displayarea').appendChild(par);
 												range.selectNode(par);
 												finishLoading(range);
-										} else {
-												alert("TeX Math Here: popup.js: Unknown response format type: " + format.value);
 										}
-								} else if (xhr.status == 500) {
-										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(xhr.responseText)['message']);
+								} else if (postxhr.status == 500) {
+										alert("TeX Math Here: popup.js: The given LaTeX code could not be compiled.\n" + JSON.parse(postxhr.responseText)['message']);
 								} else {
-										alert("TeX Math Here: popup.js: An internal server error has occurred. Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes or contact the extension developer to check on the server status.");
+										alert("TeX Math Here: popup.js: An internal server error has occurred: " + postxhr.status + ". Please ensure the latest version of Tex Math Here is installed. If it is, try again in a few minutes or contact the extension developer to check on the server status.\n\n Response: " + postxhr.responseText);
 								}
 						}
-
-            xhr.timeout = 10000; // 10 seconds
-            xhr.ontimeout = function (){
-								alert("The request to the server has timed out. Please verify your computer's network connection.");
-						};
 				};
 
-        xhr.open('GET', value, true);
-        xhr.send();
-    });
+
+				postxhr.timeout = 10000; // 10 seconds
+				postxhr.ontimeout = function () {
+						alert("The request to the server has timed out. Please verify your computer's network connection.");
+				};
+
+				postxhr.send(data);
+		});
 
 }, false);

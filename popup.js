@@ -82,11 +82,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Keep option values/selections persistent after extension closes
+		let inputs = [];
+		function saveInputOptions (selectID, input) {
+        localStorage.setItem(selectID, (selectID == "displaystyle") ? input.checked : input.value);
+    }
+
     function persistentOptions(selectID) {
         var input = document.getElementById(selectID);
+				inputs.push({"input": input, "selectid": selectID});
+
         input.addEventListener('change', function () {
-            localStorage.setItem(selectID, (selectID == "displaystyle") ? input.checked : input.value);
-        });
+						saveInputOptions(selectID, input);
+				});
 
         if(localStorage.getItem(selectID)) {
             var val = localStorage.getItem(selectID);
@@ -157,6 +164,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		function submitCode (e) {
 				if (e != undefined)
 						e.preventDefault();
+
+				// Also save the current options when the submit button is pressed.
+
+				// Since the change event does not fire when the element still has focus,
+				// compiling with C-RET and then having a syntax error does not save the
+				// invalid code.
+
+				inputs.forEach(element => saveInputOptions(element["selectid"], element["input"]));
 
 				// Change user display
 				document.getElementById("clipboardstatus").style.display = "none";

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Keep option values/selections persistent after extension closes
 		let inputs = [];
 		function saveInputOptions (selectID, input) {
-        localStorage.setItem(selectID, (selectID == "displaystyle") ? input.checked : input.value);
+        localStorage.setItem(selectID, (selectID == "displaystyle" || selectID == "blobbed") ? input.checked : input.value);
     }
 
     function persistentOptions(selectID) {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var val = localStorage.getItem(selectID);
             if (selectID == "color") {
                 input.jscolor.fromString(val);
-            } else if (selectID == "displaystyle") {
+            } else if (selectID == "displaystyle" || selectID == "blobbed") {
 								input.checked = (val == "true");
 						} else {
                 input.value = val;
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     persistentOptions("color");
 		persistentOptions("code");
+		persistentOptions("blobbed");
 
     var input = document.getElementById("code");
 

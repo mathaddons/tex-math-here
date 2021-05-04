@@ -46,6 +46,17 @@ th, td {
 		-ms-user-select: all; /* Internet Explorer/Edge */
 }
 
+.check-label {
+  font-family:helvetica,verdana,arial;
+  font-size: 11px;
+  display: inline-block;
+  white-space: nowrap;
+}
+.check-input {
+		vertical-align: middle;
+		margin-right: 0px;
+}
+
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;

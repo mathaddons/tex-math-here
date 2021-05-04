@@ -25,7 +25,7 @@
     <form id="form">
       <textarea id="code" rows="4" cols="54"
 								class="TeX"
-								title="Enter TeX here"
+								title="Enter TeX math code here."
 								style="resize:none" spellcheck="false">Enter code here</textarea>
 			<br/>
 
@@ -43,7 +43,15 @@
 			<label for="displaystyle" style="font-size:10px"><tt>\displaystyle</tt></label>
       <div id="fontLabel" style="font-size:10px;"></div>
 
-    <button type="submit" id="submitButton" style="margin-top:10px">Convert</button>
+			<button type="submit" id="submitButton"
+							style="margin-top:10px">Convert</button>
+			<input type="checkbox" id="blobbed" class="check-input">
+			<label for="blobbed" class="check-label"
+						 title="When checked, set the returned image's src attribute to a permanent URL	on the server. Otherwise, store the image as a self-contained data URL.
+
+Enabling this option may cause pasting delays with Google Docs and other online platforms, so only enable it if you need the TeX Math Here server to store a copy of your equation image for you.">
+				With URL
+			</label>
     </form>
 
     <h3>

@@ -193,7 +193,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 				// Post JSON with configuration options, and get the image returned.
 				var postxhr = new XMLHttpRequest();
-				postxhr.open("POST", server + '/compile', true);
+				var blobbed = !document.getElementById('blobbed').checked;
+
+				if (blobbed) {
+						postxhr.open("POST", server + '/blob', true);
+				} else {
+						postxhr.open("POST", server + '/post', true);
+				}
 				postxhr.setRequestHeader("Content-Type", "application/json");
 
 				postxhr.onreadystatechange = function() {
@@ -219,7 +225,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 												img.className = 'math';
 												img.id = 'output';
-												img.src = server + '/fetch/' + result["id"];
+
+												if (blobbed) {
+														img.src = result["data"];
+												} else {
+														img.src = server + '/id/' + result["id"];
+												}
 										} else if (format.value == "mml" || format.value == "speech") {
 												var par = document.createElement('p');
 												par.textContent = postxhr.responseText;

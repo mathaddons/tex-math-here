@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 								if (postxhr.status == 200) {
 										let range = document.createRange();
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
+												// Image track
 												let result = JSON.parse(postxhr.responseText);
 												var img = document.createElement('img');
 												img.onload = function () {
@@ -233,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function () {
 												} else {
 														img.src = server + '/id/' + result["id"];
 												}
-										} else if (format.value == "mml" || format.value == "speech") {
+										} else {
+												// Text track
 												var par = document.createElement('p');
 												par.textContent = postxhr.responseText;
 												par.id = 'output';

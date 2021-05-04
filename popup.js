@@ -177,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				// Change user display
 				document.getElementById("clipboardstatus").style.display = "none";
 				let displayarea = document.getElementById("displayarea");
+				let code = document.getElementById("code");
 				displayarea.style.display = "none";
 				displayarea.textContent = '';
 
@@ -189,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						"f": document.getElementById('font').value,
 						"m": document.getElementById('displaystyle').checked,
 						"t": document.getElementById('format').value,
-						"raw": document.getElementById("code").value.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, "")
+						"raw": code.value.replace(/\//g, '\\slash').replace(/\n/g, "").replace(/\$/g, "").replace(/\\\[/g, "")
 				});
 
 				// Post JSON with configuration options, and get the image returned.
@@ -212,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
 												var img = document.createElement('img');
 												img.onload = function () {
 														document.getElementById("loader").style.display = "none";
-														img.alt = result["result"];
-														img.title = result["result"];
+														img.alt = code.value;
+														img.title = code.value;
 
 														if (!!document.getElementById('output')) {
 																document.getElementById('output').remove();

@@ -21,10 +21,16 @@ document.addEventListener('DOMContentLoaded', function () {
 		let extRect = document.body.getBoundingClientRect();
 		document.body.style.width = extRect.width.toString() + 'px';
 
+		let fontLabel = document.getElementById("fontLabel");
+		let displayarea = document.getElementById("displayarea");
+		let input = document.getElementById("code");
+		let loader = document.getElementById("loader");
+		let clipboardStatus = document.getElementById("clipboardstatus");
+
 		// The maximum extension dimensions are 800px by 600px. So we want the image
 		// area to not make the whole extension larger than 600px tall, otherwise
 		// unsightly scroll bars will appear.
-		document.getElementById("displayarea").style.maxHeight = (600 - extRect.height).toString() + 'px';
+		displayarea.style.maxHeight = (600 - extRect.height).toString() + 'px';
 
     // Populate the selectors from server
     let font = document.getElementById("font");
@@ -45,10 +51,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 );
             });
             persistentOptions("font");
-            document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
+            fontLabel.innerHTML = font_data[font.value]["formal"];
 
 						// DPI
-						let dpi_data = data["dpis"];
+						var dpi_data = data["dpis"];
             $.each(dpi_data["options"], function (key, entry) {
                 dpi.append(
                     $('<option></option>').attr('value', key).text(entry)
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						persistentOptions("DPI");
 
 						// Formats
-						let format_data = data["formats"];
+						var format_data = data["formats"];
 						$.each(format_data["options"], function (key, entry) {
                 format.append(
                     $('<option></option>').attr('value', key).text(entry)
@@ -68,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						persistentOptions("format");
 
 						// Displaystyle
-						document.getElementById("displaystyle").checked = data["displaystyle"];
+						displaystyle.checked = data["displaystyle"];
 						persistentOptions("displaystyle");
         }).fail(function() {
 						alert('TeX Math Here: popup.js: Cannot contact compilation server. Please try again later.');
@@ -77,8 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Update the font dynamic name whenever the font selection changes.
-    font.addEventListener("input", function(){
-        document.getElementById("fontLabel").innerHTML = font_data[font.value]["formal"];
+    font.addEventListener("input", function() {
+        fontLabel.innerHTML = font_data[font.value]["formal"];
     });
 
     // Keep option values/selections persistent after extension closes
@@ -111,11 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		persistentOptions("code");
 		persistentOptions("blobbed");
 
-    var input = document.getElementById("code");
-
 		function finishLoading(range) {
-				document.getElementById("loader").style.display = "none";
-				document.getElementById("displayarea").style.display = "block";
+				loader.style.display = "none";
+				displayarea.style.display = "block";
 
 				// Clears the selection so that nothing but what it selects next is selected on copy.
 				var sel = window.getSelection();
@@ -124,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				document.execCommand('Copy');
 				sel.removeAllRanges();
 
-				var clipboardStatus = document.getElementById("clipboardstatus");
 				if (browser == browser) {
 						clipboardStatus.textContent = "(drag or right-click to copy)";
 				} else {
@@ -149,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
             input.value = retrieved_latex;
             localStorage.setItem("code", retrieved_latex);
         }
-        document.getElementById("code").select();
+        input.select();
     });
 
     // LISTENS FOR KEY COMBO TO CONVERT IMAGE -- SEE BELOW
@@ -175,13 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				inputs.forEach(element => saveInputOptions(element["selectid"], element["input"]));
 
 				// Change user display
-				document.getElementById("clipboardstatus").style.display = "none";
-				let displayarea = document.getElementById("displayarea");
-				let code = document.getElementById("code");
+				clipboardstatus.style.display = "none";
 				displayarea.style.display = "none";
 				displayarea.textContent = '';
 
-				document.getElementById("loader").style.display = "block";
+				loader.style.display = "block";
 
         // Get values from user configuration
 				var data = JSON.stringify({
@@ -202,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				} else {
 						postxhr.open("POST", server + '/post', true);
 				}
+
 				postxhr.setRequestHeader("Content-Type", "application/json");
 
 				postxhr.onreadystatechange = function() {
@@ -210,10 +212,10 @@ document.addEventListener('DOMContentLoaded', function () {
 										let range = document.createRange();
 										if (format.value == "png" || format.value == "svg" || format.value == "gif") {
 												// Image track
-												let result = JSON.parse(postxhr.responseText);
+												var result = JSON.parse(postxhr.responseText);
 												var img = document.createElement('img');
 												img.onload = function () {
-														document.getElementById("loader").style.display = "none";
+														loader.style.display = "none";
 														img.alt = code.value;
 														img.title = code.value;
 
@@ -221,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
 																document.getElementById('output').remove();
 														}
 
-														document.getElementById('displayarea').appendChild(img);
+														displayarea.appendChild(img);
 														range.selectNode(img);
 														finishLoading(range);
 												};
@@ -241,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
 												par.id = 'output';
 												par.className = "enable-select";
 
-												document.getElementById('displayarea').appendChild(par);
+												displayarea.appendChild(par);
 												range.selectNode(par);
 												finishLoading(range);
 										}
